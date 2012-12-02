@@ -28,7 +28,8 @@
 						success: function(data) {
 							//alert(data);
 							$("#cover-photo").attr("src",data.cover.source);
-							$("div#home>div>h1").html(data.name);
+							$("div#Home>div>h1").html(data.name);
+							$("#about-link").html("About "+data.name);
 						}
 					});
 							
@@ -126,7 +127,7 @@
 			<li><a href="#events">Events</a></li> 
 		</ul> 
 		<ul data-role="listview" data-inset="true">
-			<li><a href="01-default.html" target="_blank">!ABOUT!</a></li> 
+			<li><a href="01-default.html" target="_blank" id="about-link">!ABOUT!</a></li> 
 		</ul> 
 		
 	</div>
