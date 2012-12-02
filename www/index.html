@@ -27,6 +27,7 @@
 						dataType: "json",
 						success: function(data) {
 							//alert(data);
+							cache: true,
 							$("#cover-photo").attr("src",data.cover.source);
 							$("div#Home>div>h1").html(data.name);
 							$("#about-link").html("About "+data.name);
@@ -37,6 +38,7 @@
 				$.ajax({
 					url: makeURL("/photos?fields=images", access_token),
 					dataType: "json",
+					cache: true,
 					success: function(data) {
 						//Check for errors 
 						  if (data.error) {
