@@ -20,63 +20,23 @@
 		(function(window, $, PhotoSwipe){
 			
 			$(document).ready(function(){
-				var access_token = "AAAAAH4pPG9oBACGNbLfiL8Hg3ECAF0AiCEmrw8ZCmMsnxOYZB5VlZCTKBZCq69ZCbHwpA50vX9ZBzXf60OojKsvZBnQr4Q1B48uG7MiS3qZA6yTYGHvHADia";
+				var access_token = "135464426458|axfHtzxEv_U8iofUZ-QduBHtp_g";
 				//Load cover and basic info
+				$.mobile.showPageLoadingMsg();
 				$.ajax({
 						url: makeURL("/?fields=cover,name", access_token),
 						dataType: "json",
+						cache: true,
 						success: function(data) {
 							//alert(data);
-							cache: true,
 							$("#cover-photo").attr("src",data.cover.source);
 							$("div#Home>div>h1").html(data.name);
 							$("#about-link").html("About "+data.name);
+							$.mobile.hidePageLoadingMsg();
 						}
 					});
 							
-				//Load Photo Gallery
-				$.ajax({
-					url: makeURL("/photos?fields=images", access_token),
-					dataType: "json",
-					cache: true,
-					success: function(data) {
-						//Check for errors 
-						  if (data.error) {
-							// check to see if this is an oAuth error:
-							if (data.error.type== "OAuthException") {
-							  // Retrieving a valid access token.
-								var app_id = "135464426458";
-								var app_secret = "37e3359045564ff210fc3c3beefb07cc"; 
-								var token_url="https://graph.facebook.com/oauth/access_token?client_id=" + app_id  + "&client_secret=" + app_secret;
-								$.ajax({
-									url: token_url,
-									dataType: "json",
-									success: function(data) {
-										access_token = data.access_token;
-										console.log("access_token:", access_token);
-									}
-								});
-							}
-							else {
-							  console.log("other error has happened");
-							}
-						  } 
-						  else {
-							// success
-							//console.log("Sample of data:", data.data[0].images[0].source);
-							console.log("Sample of data:", data.data.length);
-							var string = "";
-							for(var i=0; i<data.data.length; i++)
-							{
-								var src = data.data[i].images[0].source;
-									string+="<li><a href='"+src+"' rel='external'><img src='"+src+"' /></a></li>";
-							}
-							$("#g1").html(string);
-							
-						}
-						
-					}
-			});
+				
 			function makeURL(action, access_token)
 			{
 				var url = "https://graph.facebook.com/";
@@ -87,11 +47,29 @@
 
 			$('div.gallery-page')
 				.live('pageshow', function(e){
-						var 
+							//Load Photo Gallery
+							$.mobile.showPageLoadingMsg();
+							$.ajax({
+								url: makeURL("/photos?fields=images", access_token),
+								dataType: "json",
+								cache: true,
+								success: function(data) {
+										var string = "";
+										for(var i=0; i<data.data.length; i++)
+										{
+											var src = data.data[i].images[0].source;
+											string+="<li><a href='"+src+"' rel='external'><img src='"+src+"' /></a></li>";
+										}
+										$("#g1").html(string);
+							$.mobile.hidePageLoadingMsg();
+							
+							}
+							});
+							
+							var 
 							currentPage = $(e.target),
 							options = {},
 							photoSwipeInstance = $("ul.gallery a", e.target).photoSwipe(options,  currentPage.attr('id'));
-							
 						return true;
 						
 					})
@@ -151,7 +129,5 @@
 		<h4>&copy; 2012 WhiteSnow Software, India</h4>
 	</div>
 </div>
-
-
 </body>
 </html>
