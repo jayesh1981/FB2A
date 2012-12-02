@@ -23,7 +23,7 @@
 				var access_token = "AAAAAH4pPG9oBACGNbLfiL8Hg3ECAF0AiCEmrw8ZCmMsnxOYZB5VlZCTKBZCq69ZCbHwpA50vX9ZBzXf60OojKsvZBnQr4Q1B48uG7MiS3qZA6yTYGHvHADia";
 				//Load cover and basic info
 				$.ajax({
-						url: makeURL("/?fields=cover", access_token),
+						url: makeURL("/?fields=cover,name", access_token),
 						dataType: "json",
 						success: function(data) {
 							//alert(data);
@@ -120,7 +120,7 @@
 		<h1>!APPNAME!</h1>
 	</div>
 	<div data-role="content" >
-		<img id="cover-photo" src=""/>
+		<img style="width:100%" id="cover-photo" src=""/>
 		<ul data-role="listview" data-inset="true">
 			<li><a href="#photo-gallery">Photo Gallery</a></li> 
 			<li><a href="#events">Events</a></li> 
