@@ -17,17 +17,22 @@
 	
 	
 	<script type="text/javascript">
-		
-		/*
-		 * IMPORTANT!!!
-		 * REMEMBER TO ADD  rel="external"  to your anchor tags. 
-		 * If you don't this will mess with how jQuery Mobile works
-		 */
-		
 		(function(window, $, PhotoSwipe){
 			
 			$(document).ready(function(){
 				var access_token = "AAAAAH4pPG9oBACGNbLfiL8Hg3ECAF0AiCEmrw8ZCmMsnxOYZB5VlZCTKBZCq69ZCbHwpA50vX9ZBzXf60OojKsvZBnQr4Q1B48uG7MiS3qZA6yTYGHvHADia";
+				//Load cover and basic info
+				$.ajax({
+						url: makeURL("/?fields=cover", access_token),
+						dataType: "json",
+						success: function(data) {
+							//alert(data);
+							$("#cover-photo").attr("src",data.cover.source);
+							$("div#home>div>h1").html(data.name);
+						}
+					});
+							
+				//Load Photo Gallery
 				$.ajax({
 					url: makeURL("/photos?fields=images", access_token),
 					dataType: "json",
@@ -54,22 +59,18 @@
 							}
 						  } 
 						  else {
-						  // success
-    
+							// success
 							//console.log("Sample of data:", data.data[0].images[0].source);
 							console.log("Sample of data:", data.data.length);
 							var string = "";
 							for(var i=0; i<data.data.length; i++)
 							{
-								//string+="<img src='"+data.data[i].images[0].source+"'/>";
 								var src = data.data[i].images[0].source;
 									string+="<li><a href='"+src+"' rel='external'><img src='"+src+"' /></a></li>";
 							}
 							$("#g1").html(string);
-							//alert(data);
-							//$("#cover").attr("src",data.cover.source);
-							//$("div#first>div>h1").html(data.name);
-							}
+							
+						}
 						
 					}
 			});
@@ -113,84 +114,40 @@
 	
 </head>
 <body>
-
+<!--Home Page-->
 <div data-role="page" id="Home">
-
 	<div data-role="header">
-		<h1>PhotoSwipe</h1>
+		<h1>!APPNAME!</h1>
 	</div>
-	
-	
-	<div data-role="content" >	
-		
-		<p>These examples show PhotoSwipe integrated with jQuery Mobile:</p>		
-		
+	<div data-role="content" >
+		<img id="cover-photo" src=""/>
 		<ul data-role="listview" data-inset="true">
-			<li><a href="#Gallery1">First Gallery</a></li> 
-			<li><a href="#Gallery2">Second Gallery</a></li> 
+			<li><a href="#photo-gallery">Photo Gallery</a></li> 
+			<li><a href="#events">Events</a></li> 
 		</ul> 
-		
-		<p>PhotoSwipe has also been designed to run stand-alone and can be easily integrated into your non jQuery / jQuery mobile websites:</p>
-		
 		<ul data-role="listview" data-inset="true">
-			<li><a href="01-default.html" target="_blank">Code Computerlove</a></li> 
+			<li><a href="01-default.html" target="_blank">!ABOUT!</a></li> 
 		</ul> 
 		
 	</div>
-
 	<div data-role="footer">
-		<h4>&copy; 2012 Code Computerlove</h4>
+		<h4>&copy; 2012 WhiteSnow Software, India</h4>
 	</div>
-
 </div>
-<div data-role="page" data-add-back-btn="true" id="Gallery1" class="gallery-page">
-
+<!--Photo Gallery Page-->
+<div data-role="page" data-add-back-btn="true" id="photo-gallery" class="gallery-page">
 	<div data-role="header">
-		<h1>First Gallery</h1>
+		<h1>Photo Gallery</h1>
 	</div>
-
 	<div data-role="content">	
-		
 		<ul id="g1" class="gallery">
-					
 		</ul>
-		
 	</div>
-	
 	<div data-role="footer">
-		<h4>&copy; 2012 Code Computerlove</h4>
+		<h4>&copy; 2012 WhiteSnow Software, India</h4>
 	</div>
-	
 </div>
-<div data-role="page" data-add-back-btn="true" id="Gallery2" class="gallery-page">
 
-	<div data-role="header">
-		<h1>Second Gallery</h1>
-	</div>
-
-	<div data-role="content">	
-		
-		<ul class="gallery">
-		
-			<li><a href="images/full/010.jpg" rel="external"><img src="images/thumb/010.jpg" alt="Image 010" /></a></li>
-			<li><a href="images/full/011.jpg" rel="external"><img src="images/thumb/011.jpg" alt="Image 011" /></a></li>
-			<li><a href="images/full/012.jpg" rel="external"><img src="images/thumb/012.jpg" alt="Image 012" /></a></li>
-			<li><a href="images/full/013.jpg" rel="external"><img src="images/thumb/013.jpg" alt="Image 013" /></a></li>
-			<li><a href="images/full/014.jpg" rel="external"><img src="images/thumb/014.jpg" alt="Image 014" /></a></li>
-			<li><a href="images/full/015.jpg" rel="external"><img src="images/thumb/015.jpg" alt="Image 015" /></a></li>
-			<li><a href="images/full/016.jpg" rel="external"><img src="images/thumb/016.jpg" alt="Image 016" /></a></li>
-			<li><a href="images/full/017.jpg" rel="external"><img src="images/thumb/017.jpg" alt="Image 017" /></a></li>
-			<li><a href="images/full/018.jpg" rel="external"><img src="images/thumb/018.jpg" alt="Image 018" /></a></li>
-		
-		</ul>
-		
-	</div>
-
-	<div data-role="footer">
-		<h4>&copy; 2012 Code Computerlove</h4>
-	</div>
-
-</div>
 
 </body>
 </html>
